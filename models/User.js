@@ -9,7 +9,11 @@ const userSchema = new Schema({
   books: [{
     type: Schema.Types.ObjectId,
     ref: "Book"
-  }]
+  }],
+  bookCount: {
+    type: Number,
+    default: 0,
+  },
 })
 
 module.exports = model('User', userSchema);

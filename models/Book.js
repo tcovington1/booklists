@@ -6,10 +6,10 @@ const bookSchema = new Schema({
   author: String,
   price: Number,
   createdAt: String,
-  user: {
+  users: [{
     type: Schema.Types.ObjectId,
-    ref: 'users'
-  },
+    ref: 'User'
+  }],
 });
 
 module.exports = model('Book', bookSchema)
