@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useMutation } from "@apollo/client"
 import gql from "graphql-tag"
 import { Link } from 'react-router-dom'
 
+import { AuthContext } from '../context/auth'
 import useForm from '../../lib/useForm'
 import { Error } from '../Error'
 
@@ -25,6 +26,7 @@ const LOGIN_USER = gql`
 `;
 
 export const Login = (props) => {
+  const context = useContext(AuthContext)
   const [errors, setErrors] = useState({})
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     email: '',
@@ -32,9 +34,10 @@ export const Login = (props) => {
   });
 
   const [loginUser, {loading}] = useMutation(LOGIN_USER, {
-    update(_, result) {
-      console.log(`results: ${result}`)
-      props.history.push('/dashboard')
+    update(_, {data: { login: userData }}) {
+      console.log(`results: ${userData}`)
+      context.login(userData)
+      props.history.push('/')
     },
     onError(err){
       setErrors(err.graphQLErrors[0].extensions.exception.errors)

@@ -1,8 +1,14 @@
 import { useQuery, gql } from '@apollo/client';
 import { Route } from 'react-router-dom';
+
 import { Login } from './components/pages/Login';
 import { Register } from './components/pages/Register';
 import { Dashboard } from './components/pages/Dashboard';
+import { AllBooks } from './components/pages/AllBooks';
+import { AuthProvider } from './components/context/auth';
+import AuthRoute from './lib/AuthRoute';
+import { ProtectedRoute } from './lib/ProtectedRoute';
+
 import './App.css';
 
 const GET_ALL_BOOKS = gql`
@@ -23,11 +29,12 @@ function App() {
   console.log(data)
 
   return (
-    <>
-      <Route exact path='/' component={Login}/>
+    <AuthProvider>
+      <Route exact path='/login' component={Login}/>
       <Route exact path='/register' component={Register}/>
-      <Route exact path='/dashboard' component={Dashboard}/>
-    </>
+      <ProtectedRoute exact path='/' component={Dashboard}/>
+      <ProtectedRoute exact path='/all-books' component={AllBooks}/>
+    </AuthProvider>
   );
 }
 
