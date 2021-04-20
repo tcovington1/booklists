@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useMutation } from "@apollo/client"
 import gql from "graphql-tag"
 import { Link } from 'react-router-dom'
 
+import { AuthContext } from '../context/auth'
 import useForm from '../../lib/useForm'
 import { Error } from '../Error'
 
@@ -29,6 +30,7 @@ const REGISTER_USER = gql`
 `;
 
 export const Register = (props) => {
+  const context = useContext(AuthContext)
   const [errors, setErrors] = useState({})
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     firstName: '',
@@ -39,8 +41,9 @@ export const Register = (props) => {
   });
 
   const [addUser, {loading}] = useMutation(REGISTER_USER, {
-    update(_, result) {
-      console.log(`results: ${result.data}`)
+    update(_, { data: { register: userData }}) {
+      console.log(`results: ${userData}`)
+      context.login(userData)
       props.history.push('/dashboard')
     },
     onError(err){

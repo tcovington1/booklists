@@ -4,11 +4,26 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client/react';
+import { setContext } from 'apollo-link-context';
+
+const authLink = setContext(() => {
+  const token = localStorage.getItem("jwtToken")
+  return {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : ''
+    }
+  }
+})
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:5000',
+});
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
+  link: authLink.concat(httpLink),
+  // uri: authLink.concat(),
   cache: new InMemoryCache()
 });
 
