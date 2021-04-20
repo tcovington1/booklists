@@ -35,8 +35,6 @@ export const Login = (props) => {
 
   const [loginUser, {loading}] = useMutation(LOGIN_USER, {
     update(_, {data: { login: userData }}) {
-      console.log(`results: ${userData}`)
-      context.login(userData)
       props.history.push('/')
     },
     onError(err){
@@ -106,11 +104,11 @@ export const Login = (props) => {
                   Sign in
                 </button>
                 <p className="mt-2 text-center text-sm text-gray-600 max-w">
-            Don't have an account? 
-            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-              <Link to='/register'>Sign up</Link>
-            </a>
-          </p>
+                  Don't have an account? 
+                  <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <Link to='/register'>Sign up</Link>
+                  </a>
+                </p>
               </div>
             </form>
           </div>
