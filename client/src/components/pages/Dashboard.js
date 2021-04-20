@@ -1,4 +1,6 @@
 import { Fragment, useState, useContext } from 'react'
+import { useQuery } from "@apollo/client";
+import gql from "graphql-tag";
 import { Dialog, Transition } from '@headlessui/react'
 import {
   CalendarIcon,
@@ -9,15 +11,26 @@ import {
   MenuIcon,
   UsersIcon,
   XIcon,
-  CurrencyDollarIcon
+  BookOpenIcon
 } from '@heroicons/react/outline'
 
 import { AuthContext } from '../context/auth'
 import BookTable from '../BookTable'
 
+const GET_USER_BOOKS = gql`
+query getUsersBooks{
+  getUsersBooks{
+  	title
+    description
+    author
+    price
+  }
+}
+`
+
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'All books', href: '/app/stocks', icon: CurrencyDollarIcon, current: false },
+  { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
+  { name: 'All books', href: '/all-books', icon: BookOpenIcon, current: false },
   // { name: 'Projects', href: '#', icon: FolderIcon, current: false },
   // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
   // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
@@ -31,7 +44,10 @@ function classNames(...classes) {
 export const Dashboard = () => {
   const { user, logout } = useContext(AuthContext)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  console.log(user)
+  const { loading, error, data } = useQuery(GET_USER_BOOKS);
+  
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error! {error.message}</p>;
 
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
@@ -207,6 +223,7 @@ export const Dashboard = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
           </div>
+          
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             
             <div className="py-4">
@@ -216,11 +233,19 @@ export const Dashboard = () => {
             </div>
             <div className="py-4">
               {/* <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" /> */}
-              <BookTable />
+              <BookTable bookData={data.getUsersBooks}/>
               
             </div>
             {/* /End replace */}
           </div>
+          <button className="rounded-md shadow">
+                <a
+                  href="#"
+                  className="w-15 flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+                >
+                  Add a book
+                </a>
+              </button>
         </div>
       </main>
     </div>

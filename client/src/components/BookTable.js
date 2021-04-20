@@ -1,30 +1,5 @@
-import { useQuery, useContext } from "@apollo/client";
-import gql from "graphql-tag";
 
-const GET_USER_BOOKS = gql`
-query getUsersBooks{
-  getUsersBooks{
-  	title
-    description
-    author
-    price
-  }
-}
-`
-// const people = [
-//   { ticker: 'AAPL', yield: '3.87%', income: '$384', shareCount: '3' },
-//   { ticker: 'SPG', yield: '6.73', income: '$6,473', shareCount: '19' },
-//   // More people...
-// ]
-
-export default function BookTable() {
-  const { loading, error, data } = useQuery(GET_USER_BOOKS);
-  
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error! {error.message}</p>;
-
-  console.log(data)
-
+export default function BookTable({bookData}) {
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -63,13 +38,13 @@ export default function BookTable() {
                 </tr>
               </thead>
               <tbody>
-                {data.getUsersBooks.map((userBook, bookIdx) => (
-                  <tr key={userBook.title} className={bookIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{userBook.title}</td>
+                {bookData.map((book, bookIdx) => (
+                  <tr key={book.title} className={bookIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{book.title}</td>
                     {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userBook.description}</td> */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">This is a hardcoded description</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userBook.author}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${userBook.price}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.author}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${book.price}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <a href="#" className="text-indigo-600 hover:text-indigo-900">
                         Edit

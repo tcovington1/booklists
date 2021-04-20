@@ -37,7 +37,7 @@ export const Login = (props) => {
     update(_, {data: { login: userData }}) {
       console.log(`results: ${userData}`)
       context.login(userData)
-      props.history.push('/dashboard')
+      props.history.push('/')
     },
     onError(err){
       setErrors(err.graphQLErrors[0].extensions.exception.errors)
