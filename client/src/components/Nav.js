@@ -17,7 +17,7 @@ import { AuthContext } from './context/auth'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
-  { name: 'All books', href: '/all-books', icon: BookOpenIcon, current: false },
+  { name: 'Book Library', href: '/all-books', icon: BookOpenIcon, current: false },
   { name: 'View profile', href: '/profile', icon: UsersIcon, current: false },
   // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
   // { name: 'Documents', href: '#', icon: InboxIcon, current: false },

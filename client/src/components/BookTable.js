@@ -1,5 +1,6 @@
 
-export default function BookTable({bookData}) {
+export default function BookTable({ bookData }) {
+  
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -51,7 +52,8 @@ export default function BookTable({bookData}) {
                       </a>
                     </td>
                   </tr>
-                ))}
+                )
+                )}
               </tbody>
             </table>
           </div>
