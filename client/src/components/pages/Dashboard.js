@@ -8,6 +8,7 @@ import { Page } from './Page'
 const GET_USER_BOOKS = gql`
 query getUsersBooks{
   getUsersBooks{
+    id
   	title
     description
     author

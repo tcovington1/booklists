@@ -9,6 +9,7 @@ import { BookForm } from '../BookForm'
 const GET_ALL_BOOKS = gql`
   query getAllBooks {
     getAllBooks {
+      id
       title
       description
       author
