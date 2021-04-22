@@ -7,11 +7,21 @@ const DELETE_BOOK_MUTATION = gql`
   deleteBook(bookId: $bookId)
 }
 `;
+const ADD_BOOK_MUTATION = gql`
+  mutation addBook($bookId: ID!) {
+  addBook(bookId: $bookId)
+}
+`;
 
 export default function BookTable({ bookData }) {
   const [ bookId, setBookId ] = useState('')
-  
+
   const [deleteBook] = useMutation(DELETE_BOOK_MUTATION, {
+    variables: {
+      bookId
+    }
+  })
+  const [addBook] = useMutation(ADD_BOOK_MUTATION, {
     variables: {
       bookId
     }
@@ -50,6 +60,9 @@ export default function BookTable({ bookData }) {
                     Price
                   </th>
                   <th scope="col" className="relative px-6 py-3">
+                    <span className="sr-only">Add</span>
+                  </th>
+                  <th scope="col" className="relative px-6 py-3">
                     <span className="sr-only">Edit</span>
                   </th>
                   <th scope="col" className="relative px-6 py-3">
@@ -65,6 +78,14 @@ export default function BookTable({ bookData }) {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">This is a hardcoded description</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.author}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${book.price}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button className="text-indigo-600 hover:text-indigo-900" onClick={() => {
+                            setBookId(book.id)
+                            addBook() 
+                          }} >
+                        Add
+                      </button>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <a href="#" className="text-indigo-600 hover:text-indigo-900">
                         Edit

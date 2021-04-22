@@ -23,6 +23,8 @@ export const Dashboard = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error! {error.message}</p>;
 
+  console.log(`data ${data}`)
+
   const isBookList = data.getUsersBooks.map((book) => {
     return book
   })
@@ -31,8 +33,10 @@ export const Dashboard = () => {
 
   return (
     <Page pageTitle={'Dashboard'}>
-      { data.getUsersBooks.title ? <BookTable bookData={data.getUsersBooks} /> : <h1>You currently don't have any books in your list. Let's get some added!</h1>}
-       <div className="grid justify-items-center">
+      {/* { data.getUsersBooks.title ? <BookTable bookData={data.getUsersBooks} /> : <h1>You currently don't have any books in your list. Let's get some added!</h1>} */}
+      <BookTable bookData={data.getUsersBooks} />
+       
+       <div className="grid justify-items-center m-10">
         <Link to='/all-books'  className="rounded-md shadow w-15 flex items-center justify-center px-4 py-1 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
             Add a book
         </Link>

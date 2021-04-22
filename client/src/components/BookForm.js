@@ -7,13 +7,13 @@ import useForm from '../lib/useForm';
 import { Error } from './Error';
 
 const CREATE_BOOK_MUTATION = gql`
-    mutation addBook(
+    mutation createBook(
       $title: String!
       $description: String!
       $author: String!
       $price: Int
     ){
-      addBook(
+      createBook(
         book:{
         title: $title
         description: $description
@@ -34,7 +34,7 @@ export const BookForm = (props) => {
     price: 0
   });
 
-  const [addBook, { error }] = useMutation(CREATE_BOOK_MUTATION, {
+  const [createBook, { error }] = useMutation(CREATE_BOOK_MUTATION, {
     variables: inputs,
     update(_, result){
       console.log(result)
@@ -56,7 +56,7 @@ export const BookForm = (props) => {
           <div className="bg-white py-14 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={(e) => {
               e.preventDefault();
-                addBook()
+                createBook()
               }}>
                  {/* {Object.keys(errors).length > 0 && (
                   Object.values(errors).map((value) => {
