@@ -1,26 +1,10 @@
 import { useState } from 'react';
-import { useMutation } from "@apollo/client"
-import gql from "graphql-tag"
 
 import { DeleteButton } from './DeleteButton'
 import { AddBookButton } from './AddBookButton' 
 
-const ADD_BOOK_MUTATION = gql`
-  mutation addBook($bookId: ID!) {
-  addBook(bookId: $bookId)
-}
-`;
-
 export default function BookTable({ bookData, addEditEnabled }) {
-  const [ bookId, setBookId ] = useState('')
-
-  console.log(`bookData ${bookData}`)
-
-  const [addBook] = useMutation(ADD_BOOK_MUTATION, {
-    variables: {
-      bookId
-    }
-  })
+  
 
   return (
     <div className="flex flex-col">
