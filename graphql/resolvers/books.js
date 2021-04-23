@@ -78,7 +78,7 @@ module.exports = {
         return 'Book saved to favorites'
       } 
     },
-    async deleteBook(_, {bookId}, context) {
+    async deleteBook(_, { bookId }, context) {
       const user = checkAuth(context)
       console.log(`bookId: ${bookId}`)
       try {

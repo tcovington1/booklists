@@ -99,7 +99,22 @@ module.exports = {
         id: user._id,
         token
       }
+    },
+    async removeBookFromList(_, { bookId }, context) {
+      const user = checkAuth(context)
+      const fullUser = await User.findById(user.id)
+      try {
+        if(user) {
+          const bookIndex = await fullUser.books.findIndex(b => b == bookId)
+          
+          fullUser.books.splice(bookIndex, 1)
+          await fullUser.save()
+          return 'Book removed from list'
+        
+        }
+      } catch (error) {
+        throw new Error(error)
+      }
     }
   }
-
 }
