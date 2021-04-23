@@ -94,7 +94,7 @@ export default function BookTable({ bookData, addEditEnabled }) {
                      </>
                    )}
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                     <DeleteButton bookId={book.id} />
+                     <DeleteButton bookId={book.id} isDelete={addEditEnabled}/>
                     </td>
                   </tr>
                   </>

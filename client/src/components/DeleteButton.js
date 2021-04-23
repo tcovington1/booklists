@@ -21,9 +21,27 @@ const DELETE_BOOK_MUTATION = gql`
 }
 `;
 
-export const DeleteButton = ( {bookId}) => {
+const REMOVE_BOOK_MUTATION = gql`
+   mutation removeBookFromList($bookId: ID!) {
+    removeBookFromList(bookId: $bookId)
+}
+`;
+
+export const DeleteButton = ( { bookId, isDelete }) => {
 
   const [deleteBook] = useMutation(DELETE_BOOK_MUTATION, {
+    update(proxy) {
+      const data = proxy.readQuery({
+        query: GET_ALL_BOOKS
+      });
+      proxy.writeQuery({ query: GET_ALL_BOOKS, data})
+    },
+    
+    variables: {
+      bookId
+    }
+  })
+  const [removeBook] = useMutation(REMOVE_BOOK_MUTATION, {
     update(proxy) {
       const data = proxy.readQuery({
         query: GET_ALL_BOOKS
@@ -39,8 +57,8 @@ export const DeleteButton = ( {bookId}) => {
   return (
     <div>
        <button className="text-indigo-600 hover:text-indigo-900" 
-          onClick={deleteBook}>
-          Delete
+          onClick={ isDelete ? deleteBook : removeBook}>
+          { isDelete ? 'Delete' : 'Remove'}
           </button>
     </div>
   )
