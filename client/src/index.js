@@ -8,6 +8,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client/react';
 import { setContext } from 'apollo-link-context';
 
+
 const authLink = setContext(() => {
   const token = localStorage.getItem("jwtToken")
   return {
@@ -26,6 +27,7 @@ const client = new ApolloClient({
   // uri: authLink.concat(),
   cache: new InMemoryCache()
 });
+
 
 ReactDOM.render(
   <React.StrictMode>

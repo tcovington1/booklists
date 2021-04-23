@@ -1,5 +1,27 @@
+import { useState } from 'react';
+import { useMutation } from "@apollo/client"
+import gql from "graphql-tag"
 
-export default function BookTable({bookData}) {
+import { DeleteButton } from './DeleteButton'
+import { AddBookButton } from './AddBookButton' 
+
+const ADD_BOOK_MUTATION = gql`
+  mutation addBook($bookId: ID!) {
+  addBook(bookId: $bookId)
+}
+`;
+
+export default function BookTable({ bookData, addEditEnabled }) {
+  const [ bookId, setBookId ] = useState('')
+
+  console.log(`bookData ${bookData}`)
+
+  const [addBook] = useMutation(ADD_BOOK_MUTATION, {
+    variables: {
+      bookId
+    }
+  })
+
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -32,26 +54,52 @@ export default function BookTable({bookData}) {
                   >
                     Price
                   </th>
+                  { addEditEnabled && (
+                    <>
+                      <th scope="col" className="relative px-6 py-3">
+                      <span className="sr-only">Add</span>
+                      </th>
+                      <th scope="col" className="relative px-6 py-3">
+                        <span className="sr-only">Edit</span>
+                      </th>
+                    </>
+                  )
+                  }
+                  
                   <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Edit</span>
+                    <span className="sr-only">Delete</span>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {bookData.map((book, bookIdx) => (
-                  <tr key={book.title} className={bookIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                  <>
+                    {console.log(`book: ${book}`)}
+                  <tr key={book.id} className={bookIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{book.title}</td>
                     {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userBook.description}</td> */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">This is a hardcoded description</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.author}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${book.price}</td>
+                   {addEditEnabled && (
+                     <>
+                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <AddBookButton bookId={book.id}/>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                          Edit
+                        </a>
+                      </td>
+                     </>
+                   )}
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                        Edit
-                      </a>
+                     <DeleteButton bookId={book.id} />
                     </td>
                   </tr>
-                ))}
+                  </>
+                )
+                )}
               </tbody>
             </table>
           </div>

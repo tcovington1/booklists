@@ -24,9 +24,9 @@ module.exports = {
     // },
     async me(_, __, context) {
       const user =  await checkAuth(context)
-      // User.findOne(user.id).populate({ path: "books"}).then( me => {return me})
-      console.log(user)
-      return user
+      const me = await User.findById(user.id)
+      console.log(me)
+      return me
     }
   },
   Mutation: {

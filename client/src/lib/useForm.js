@@ -6,10 +6,19 @@ export default function useForm(initial = {}) {
 
   function handleChange(e) {
     const { value, name, type} = e.target
-    setInputs({
-      ...inputs,
-      [name]: value,
-    })
+    if(name === 'price') {
+      const newValue = parseInt(value)
+      setInputs({
+        ...inputs,
+        [name]: newValue,
+      })
+    } else {
+      setInputs({
+        ...inputs,
+        [name]: value,
+      })
+    }
+    
   }
 
   function resetForm() {

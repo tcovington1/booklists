@@ -17,11 +17,8 @@ import { AuthContext } from './context/auth'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
-  { name: 'All books', href: '/all-books', icon: BookOpenIcon, current: false },
-  { name: 'View profile', href: '/profile', icon: UsersIcon, current: false },
-  // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Book Library', href: '/all-books', icon: BookOpenIcon, current: false },
+  // { name: 'View profile', href: '/profile', icon: UsersIcon, current: false },
 ]
 
 function classNames(...classes) {
@@ -122,8 +119,8 @@ export const Nav = () => {
                     />
                   </div>
                   <div className="ml-3">
-                    <p className="text-base font-medium text-white">Tom Cook</p>
-                    <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
+                    <p className="text-base font-medium text-white">{user.firstName} {user.lastName}</p>
+                    {/* <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p> */}
                   </div>
                 </div>
               </a>
@@ -180,7 +177,7 @@ export const Nav = () => {
                 </div>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-white">{user.firstName} {user.lastName}</p>
-                  <p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
+                  {/* <p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p> */}
                   <button onClick={logout} className="text-xs font-medium text-gray-300 group-hover:text-gray-200">Log out</button>
                 </div>
               </div>

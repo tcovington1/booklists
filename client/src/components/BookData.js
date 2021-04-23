@@ -1,10 +1,10 @@
-const stats = [
-  { name: 'Daily', stat: '$105.37' },
-  { name: 'Monthly', stat: '$378.43' },
-  { name: 'Yearly', stat: '$32,973' },
-]
 
-export default function BookData() {
+export default function BookData({ bookCount }) {
+  const stats = [
+    { name: 'Book Count', stat: `${bookCount}` },
+    // { name: 'Monthly', stat: '$378.43' },
+    // { name: 'Yearly', stat: '$32,973' },
+  ]
   return (
     <div>
       <h3 className="text-lg leading-6 font-medium text-gray-900">Your Book List</h3>

@@ -6,6 +6,7 @@ module.exports = gql`
     title: String!
     description: String!
     author: String!
+    price: Int
     users: [User]
   }
   type User {
@@ -29,14 +30,17 @@ module.exports = gql`
     title: String!
     description: String!
     author: String!
-    price: Int!
+    price: Int
   }
   type Query {
-    getBooks: [Book]
+    getAllBooks: [Book]
+    getUsersBooks: [Book]
     me: User
   }
   type Mutation {
-    addBook(book: addBookInput!): Book
+    addBook(bookId: ID!): String!
+    createBook(book: addBookInput!): Book!
+    deleteBook(bookId: ID!): String!
     register(registerInput: RegisterInput!): User!
     login(email: String!, password: String!): User!
   }
