@@ -41,6 +41,7 @@ module.exports = gql`
     addBook(bookId: ID!): String!
     createBook(book: addBookInput!): Book!
     deleteBook(bookId: ID!): String!
+    removeBookFromList(bookId: ID!): String!
     register(registerInput: RegisterInput!): User!
     login(email: String!, password: String!): User!
   }
