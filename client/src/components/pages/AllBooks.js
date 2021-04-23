@@ -30,7 +30,7 @@ export const AllBooks = () => {
       <div className='mb-5 text-center'>
         <h1>Either choose a book from the library or add a new book.</h1>
       </div>
-      <BookTable bookData={data.getAllBooks} />
+      <BookTable bookData={data.getAllBooks} addEditEnabled={true} />
       <div className="grid justify-items-center m-10">
         <button onClick={() => setForm(!form)} className="rounded-md shadow w-15 flex items-center justify-center px-4 py-1 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
             { form ? 'Close' : 'Add a new book' }

@@ -80,6 +80,7 @@ module.exports = {
     },
     async deleteBook(_, {bookId}, context) {
       const user = checkAuth(context)
+      console.log(`bookId: ${bookId}`)
       try {
         if(user) {
           await Book.findByIdAndRemove(bookId)

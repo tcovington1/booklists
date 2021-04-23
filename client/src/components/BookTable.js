@@ -2,25 +2,20 @@ import { useState } from 'react';
 import { useMutation } from "@apollo/client"
 import gql from "graphql-tag"
 
-const DELETE_BOOK_MUTATION = gql`
-  mutation deleteBook($bookId: ID!) {
-  deleteBook(bookId: $bookId)
-}
-`;
+import { DeleteButton } from './DeleteButton'
+import { AddBookButton } from './AddBookButton' 
+
 const ADD_BOOK_MUTATION = gql`
   mutation addBook($bookId: ID!) {
   addBook(bookId: $bookId)
 }
 `;
 
-export default function BookTable({ bookData }) {
+export default function BookTable({ bookData, addEditEnabled }) {
   const [ bookId, setBookId ] = useState('')
 
-  const [deleteBook] = useMutation(DELETE_BOOK_MUTATION, {
-    variables: {
-      bookId
-    }
-  })
+  console.log(`bookData ${bookData}`)
+
   const [addBook] = useMutation(ADD_BOOK_MUTATION, {
     variables: {
       bookId
@@ -59,12 +54,18 @@ export default function BookTable({ bookData }) {
                   >
                     Price
                   </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Add</span>
-                  </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Edit</span>
-                  </th>
+                  { addEditEnabled && (
+                    <>
+                      <th scope="col" className="relative px-6 py-3">
+                      <span className="sr-only">Add</span>
+                      </th>
+                      <th scope="col" className="relative px-6 py-3">
+                        <span className="sr-only">Edit</span>
+                      </th>
+                    </>
+                  )
+                  }
+                  
                   <th scope="col" className="relative px-6 py-3">
                     <span className="sr-only">Delete</span>
                   </th>
@@ -72,39 +73,31 @@ export default function BookTable({ bookData }) {
               </thead>
               <tbody>
                 {bookData.map((book, bookIdx) => (
+                  <>
+                    {console.log(`book: ${book}`)}
                   <tr key={book.id} className={bookIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{book.title}</td>
                     {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userBook.description}</td> */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">This is a hardcoded description</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.author}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${book.price}</td>
+                   {addEditEnabled && (
+                     <>
+                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <AddBookButton bookId={book.id}/>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                          Edit
+                        </a>
+                      </td>
+                     </>
+                   )}
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-indigo-600 hover:text-indigo-900" onClick={() => {
-                            setBookId(book.id)
-                            addBook() 
-                          }} >
-                        Add
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                        Edit
-                      </a>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-indigo-600 hover:text-indigo-900" 
-                        onClick={() => {
-                            // const bookId = parseInt(book.id)
-                            setBookId(book.id)
-                            // console.log(bookId)
-                            // console.log(typeof bookId)
-                            deleteBook() 
-                          }} 
-                          >
-                        Delete
-                      </button>
+                     <DeleteButton bookId={book.id} />
                     </td>
                   </tr>
+                  </>
                 )
                 )}
               </tbody>
